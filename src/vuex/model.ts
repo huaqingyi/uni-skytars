@@ -59,6 +59,7 @@ Store.install = (app: typeof Vue, options?: S<any>) => {
     app.prototype.$store = store.store;
 };
 
-export function useStore<M extends VuexModule>(moduleClass: ConstructorOf<M>) {
+export function useStore<M extends VuexModule>(moduleClass?: ConstructorOf<M>) {
+    if (!moduleClass) return new Store().store;
     return new Store().get(moduleClass);
 }

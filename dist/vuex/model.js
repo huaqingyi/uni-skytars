@@ -47,6 +47,8 @@ Store.install = function (app, options) {
     app.prototype.$store = store.store;
 };
 function useStore(moduleClass) {
+    if (!moduleClass)
+        return new Store().store;
     return new Store().get(moduleClass);
 }
 exports.useStore = useStore;

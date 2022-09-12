@@ -25,4 +25,4 @@ declare module 'vue/types/vue' {
         $store: S<any>;
     }
 }
-export declare function useStore<M extends VuexModule>(moduleClass: ConstructorOf<M>): M;
+export declare function useStore<M extends VuexModule>(moduleClass?: ConstructorOf<M>): S<any> | M;
