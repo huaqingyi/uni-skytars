@@ -1,27 +1,16 @@
 import { VuexModule as VxModule, Module as VModule, getModule } from 'vuex-module-decorators';
-import { Module as Mod, Store as S } from 'vuex';
+import Vuex, { Module as Mod, Store as S } from 'vuex';
 import Vue, { PluginFunction } from 'vue';
 import { map, merge } from 'lodash';
-export * from 'vuex-module-decorators';
 
-export class VuexModule<S = ThisType<any>, R = any> extends VxModule {
-    public static id: string;
-    public static keys: { [x: string]: string };
-    // tslint:disable-next-line:ban-types
-    public static action(callback: (model: any & VuexModule) => Function) {
-        return `${this.id}/${callback(this.keys)}`;
-    }
-}
-
-declare type ConstructorOf<C> = {
-    new (...args: any[]): C;
-};
+Vue.use(Vuex);
 
 export class Store {
+    public static used: boolean = false;
     public static _store: Store;
     public static install: PluginFunction<S<any>>;
 
-    public static Modulee<S>(options: any & Mod<S, any>): any {
+    public static Module<S>(options: any & Mod<S, any>): any {
         if (!(options as any).id) {
             (options as any).id = Number(Math.random().toString().substring(3, 10) + Date.now()).toString(36);
         }
@@ -48,6 +37,21 @@ export class Store {
     }
 }
 
+export * from 'vuex-module-decorators';
+
+export class VuexModule<S = ThisType<any>, R = any> extends VxModule {
+    public static id: string;
+    public static keys: { [x: string]: string };
+    // tslint:disable-next-line:ban-types
+    public static action(callback: (model: any & VuexModule) => Function) {
+        return `${this.id}/${callback(this.keys)}`;
+    }
+}
+
+declare type ConstructorOf<C> = {
+    new (...args: any[]): C;
+};
+
 declare module 'vue/types/vue' {
     interface Vue {
         $store: S<any>;
@@ -58,6 +62,8 @@ Store.install = (app: typeof Vue, options?: S<any>) => {
     const store = new Store(options);
     app.prototype.$store = store.store;
 };
+
+export const Module = Store.Module;
 
 export function useStore<M extends VuexModule>(moduleClass?: ConstructorOf<M>) {
     if (!moduleClass) return new Store().store;
