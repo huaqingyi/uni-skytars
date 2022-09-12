@@ -19,9 +19,9 @@
   "author": "huaqingyi",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/huaqingyi/uni-http/issues"
+    "url": "https://github.com/huaqingyi/uni-skytars/issues"
   },
-  "homepage": "https://github.com/huaqingyi/uni-http#readme",
+  "homepage": "https://github.com/huaqingyi/uni-skytars#readme",
   "devDependencies": {
     "@dcloudio/types": "^3.0.14",
     "@types/gulp-sourcemaps": "^0.0.35",
